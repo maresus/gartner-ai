@@ -7,9 +7,9 @@
     brandColorHover: '#2a2a2a',
     accentColor: '#C4A44B',
     title: 'Gartner Bohinj',
-    subtitle: 'Sirarna Triglavskega narodnega parka',
+    subtitle: 'Turistična kmetija Gartner, Bohinj',
     placeholder: 'Vprašajte o sirih, apartmajih...',
-    welcomeMessage: 'Pozdravljeni! Sem pomočnik Turistične kmetije Gartner iz Bohinja. Pomagam z informacijami o naših sirih, mlečnih izdelkih, apartmajih in planini v Lazu. Kako vam lahko pomagam?',
+    welcomeMessage: 'Pozdravljeni! Sem AI pomočnik Turistične kmetije Gartner. Pomagam z informacijami o sirih, mlečnih izdelkih, apartmajih in planini v Lazu. Kako vam lahko pomagam?',
     mobileBreakpoint: 768,
     maxStoredMessages: 50
   };
@@ -327,7 +327,7 @@
     xBtn.onclick = function(e) { e.stopPropagation(); e.preventDefault(); hideCards(); };
     greetingCards.appendChild(xBtn);
 
-    ['Pozdravljeni! 🧀', 'Sirarna Gartner iz Bohinja.', 'Kako vam lahko pomagam?'].forEach(function(text) {
+    ['Pozdravljeni! 🧀', 'Turistična kmetija Gartner.', 'Kako vam lahko pomagam?'].forEach(function(text) {
       const btn = document.createElement('button');
       btn.setAttribute('style', cardStyle);
       btn.textContent = text;
