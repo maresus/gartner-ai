@@ -2,7 +2,7 @@
   'use strict';
 
   const CONFIG = {
-    apiUrl: 'https://gartner-ai-production.up.railway.app/chat',
+    apiUrl: 'https://gartner.up.railway.app/chat',
     brandColor: '#0D0D0D',
     brandColorHover: '#2a2a2a',
     accentColor: '#C4A44B',
