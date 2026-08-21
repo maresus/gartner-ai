@@ -9,7 +9,9 @@
     title: 'Gartner Bohinj',
     subtitle: 'Turistična kmetija Gartner, Bohinj',
     placeholder: 'Vprašajte o sirih, apartmajih...',
-    welcomeMessage: 'Pozdravljeni! Sem AI pomočnik Turistične kmetije Gartner. Pomagam z informacijami o sirih, mlečnih izdelkih, apartmajih in planini v Lazu. Kako vam lahko pomagam?',
+    welcomeMessage: 'Pozdravljeni! Sem AI pomočnik Turistične kmetije Gartner — odgovarjam samodejno in nisem živa oseba.
+
+Pomagam z informacijami o sirih, apartmajih in planini v Lazu. Kako vam lahko pomagam?',
     mobileBreakpoint: 768,
     maxStoredMessages: 50
   };
