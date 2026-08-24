@@ -6,7 +6,7 @@
   <title>Gartner Bohinj — AI asistent</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    html, body { height: 100%; }
 
     .bg {
       position: fixed;
@@ -14,151 +14,10 @@
       z-index: 0;
       background: url('/static/SIRARNA-ODOLNEK-LAZ-EDITIRANE-35-1.webp') center center / cover no-repeat;
     }
-
-    .bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(10,8,5,0.40) 100%);
-    }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 0 8vw;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero {
-      max-width: 500px;
-      background: rgba(13, 13, 13, 0.82);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 44px 48px;
-      border: 1px solid rgba(196, 164, 75, 0.25);
-      box-shadow: 0 8px 48px rgba(0,0,0,0.5);
-      position: relative;
-      z-index: 2;
-    }
-
-    .logo-row {
-      margin-bottom: 24px;
-    }
-
-    .logo-row img {
-      height: 40px;
-      width: auto;
-      object-fit: contain;
-    }
-
-    h1 {
-      color: #ffffff;
-      font-size: clamp(26px, 3.5vw, 40px);
-      font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
-    }
-
-    h1 em {
-      font-style: normal;
-      color: #C4A44B;
-    }
-
-    .sub {
-      color: #b0a898;
-      font-size: 14px;
-      line-height: 1.7;
-      margin-bottom: 24px;
-    }
-
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-bottom: 24px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(196,164,75,0.12);
-      color: #C4A44B;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 100px;
-      border: 1px solid rgba(196,164,75,0.3);
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .badge-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #C4A44B;
-      flex-shrink: 0;
-    }
-
-    .cta-hint {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #8a7f6e;
-      font-size: 13px;
-    }
-
-    .cta-arrow {
-      font-size: 17px;
-      color: #C4A44B;
-      animation: bounce 1.8s ease-in-out infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateX(0); }
-      50% { transform: translateX(6px); }
-    }
-
-    @media (max-width: 600px) {
-      body { padding: 20px 16px; justify-content: flex-end; padding-bottom: 110px; }
-      .hero { padding: 28px 24px; }
-      h1 { font-size: 24px; }
-    }
   </style>
 </head>
 <body>
   <div class="bg"></div>
-
-  <div class="hero">
-    <div class="logo-row">
-      <img src="/static/images.jpeg" alt="Gartner Bohinj" onerror="this.style.display='none'">
-    </div>
-
-    <h1>Bohinjski siri<br><em>iz srca TNP.</em></h1>
-
-    <p class="sub">Tradicijska sirarna Gartner v Triglavskem narodnem parku — ročno izdelani planšarski siri, dimljeni sir, mohant in apartmaji v Bohinju.</p>
-
-    <div class="badges">
-      <span class="badge"><span class="badge-dot"></span>Planšarski sir · Mohant</span>
-      <span class="badge"><span class="badge-dot"></span>Dimljeni sir · Skuta</span>
-      <span class="badge"><span class="badge-dot"></span>Izbrana kakovost</span>
-      <span class="badge"><span class="badge-dot"></span>Znak kakovosti TNP</span>
-    </div>
-
-    <div class="cta-hint">
-      <span class="cta-arrow">→</span>
-      <span>Pogovorite se z AI asistentom spodaj desno</span>
-    </div>
-  </div>
-
-  <script src="/static/widget.js?v=2"></script>
+  <script src="/static/widget.js?v=3"></script>
 </body>
 </html>
