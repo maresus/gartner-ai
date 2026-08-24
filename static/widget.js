@@ -337,7 +337,7 @@
 
     const bubble = document.createElement('button');
     bubble.id = 'gn-widget-bubble';
-    bubble.innerHTML = icons.cheese;
+    bubble.innerHTML = '<img src="/static/images.jpeg" style="width:54px;height:54px;border-radius:50%;object-fit:cover;pointer-events:none;display:block;" alt="Gartner">';
     bubble.onclick = function(e) {
       e.stopPropagation(); e.preventDefault();
       setTimeout(togglePanel, 0);
@@ -553,3 +553,4 @@
     requestAnimationFrame(initWidget);
   }
 })();
+
