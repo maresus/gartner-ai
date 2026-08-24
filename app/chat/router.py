@@ -5,6 +5,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 
 from app.chat.llm_chat import chat
+from app.core.convlog import log_exchange
 
 router = APIRouter(tags=["chat"])
 
@@ -34,5 +35,11 @@ async def chat_endpoint(payload: ChatRequest) -> ChatResponse:
     history.append({"role": "assistant", "content": result["reply"]})
     if len(history) > 20:
         _sessions[session_id] = history[-20:]
+
+    # Trajno beleženje za statistiko — nikoli ne podre klepeta.
+    try:
+        log_exchange(session_id, payload.message.strip(), result["reply"])
+    except Exception:
+        pass
 
     return ChatResponse(reply=result["reply"], session_id=session_id)
