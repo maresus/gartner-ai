@@ -98,7 +98,7 @@
         inset: 0 !important;
         width: 100% !important;
         height: 100dvh !important;
-        height: 100vh !important;
+        height: calc(100vh - env(safe-area-inset-bottom)) !important;
         max-height: none !important;
         border-radius: 0 !important;
         margin: 0 !important;
@@ -426,7 +426,7 @@
       panel.style.position = 'fixed';
       panel.style.inset = '0';
       panel.style.width = '100%';
-      panel.style.height = '100%';
+      panel.style.height = '100dvh';
       panel.style.maxHeight = 'none';
       panel.style.borderRadius = '0';
       document.body.style.overflow = 'hidden';
@@ -434,6 +434,8 @@
     hideCards();
     document.getElementById('gn-widget-bubble').classList.remove('gn-has-notification');
     document.getElementById('gn-widget-input').focus();
+    const msgs = document.getElementById('gn-widget-messages');
+    if (msgs) msgs.scrollTop = msgs.scrollHeight;
   }
 
   function closePanel() {
