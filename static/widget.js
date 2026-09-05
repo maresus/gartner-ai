@@ -95,21 +95,35 @@
     @media (max-width: ${CONFIG.mobileBreakpoint}px) {
       #gn-widget-panel {
         position: fixed !important;
-        inset: 0 !important;
+        top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
         width: 100% !important;
-        height: 100dvh !important;
-        height: calc(100vh - env(safe-area-inset-bottom)) !important;
+        height: auto !important;
         max-height: none !important;
         border-radius: 0 !important;
         margin: 0 !important;
       }
+      #gn-widget-panel.gn-open { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; }
       #gn-widget-header {
         padding-top: max(16px, env(safe-area-inset-top)) !important;
+        padding-left: max(16px, env(safe-area-inset-left)) !important;
+        padding-right: max(16px, env(safe-area-inset-right)) !important;
+      }
+      #gn-widget-messages {
+        flex: 1 1 0 !important; min-height: 0 !important; overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
       }
       #gn-widget-input-area {
         padding-bottom: max(12px, env(safe-area-inset-bottom)) !important;
+        padding-left: max(12px, env(safe-area-inset-left)) !important;
+        padding-right: max(12px, env(safe-area-inset-right)) !important;
+        flex-shrink: 0 !important;
       }
+      #gn-widget-disclaimer { padding-bottom: max(4px, env(safe-area-inset-bottom)) !important; }
       #gn-widget-input { font-size: 16px !important; }
+      .gn-header-btn { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+      #gn-widget-disclaimer a, #gn-widget-powered a { display: inline-block; padding: 12px 6px; margin: -12px 0; }
     }
 
     #gn-widget-header {
@@ -337,6 +351,8 @@
 
     const bubble = document.createElement('button');
     bubble.id = 'gn-widget-bubble';
+    bubble.setAttribute('aria-label', 'Odpri pogovor z asistentom Gartner Bohinj');
+    bubble.setAttribute('aria-expanded', 'false');
     bubble.innerHTML = '<img src="/static/images.jpeg" style="width:54px;height:54px;border-radius:50%;object-fit:cover;pointer-events:none;display:block;" alt="Gartner">';
     bubble.onclick = function(e) {
       e.stopPropagation(); e.preventDefault();
@@ -358,7 +374,7 @@
       <div id="gn-widget-messages"></div>
       <div id="gn-scroll-down">${icons.arrowDown}</div>
       <div id="gn-widget-input-area">
-        <input type="text" id="gn-widget-input" placeholder="${CONFIG.placeholder}">
+        <input type="text" id="gn-widget-input" placeholder="${CONFIG.placeholder}" aria-label="Vprašajte nas">
         <button id="gn-widget-send">${icons.send}</button>
       </div>
       <div id="gn-widget-disclaimer">🤖 AI pomočnik — EU AI Act čl. 50. Odgovori so informativni. Za naročila in rezervacije: <a href="tel:+38641205182">+386 41 205 182</a></div>
@@ -404,6 +420,20 @@
 
   let panelOpen = false;
 
+  function onViewportResize() {
+    if (!panelOpen || window.innerWidth > CONFIG.mobileBreakpoint) return;
+    var vv = window.visualViewport;
+    if (!vv) return;
+    var panel = document.getElementById('gn-widget-panel');
+    panel.style.top = vv.offsetTop + 'px';
+    panel.style.height = vv.height + 'px';
+    panel.style.bottom = 'auto';
+  }
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', onViewportResize);
+    window.visualViewport.addEventListener('scroll', onViewportResize);
+  }
+
   function showCards() {
     const c = document.getElementById('gn-greeting-cards');
     if (c) c.style.display = 'flex';
@@ -419,20 +449,15 @@
     panelOpen = true;
     const panel = document.getElementById('gn-widget-panel');
     panel.classList.add('gn-open');
-    panel.style.opacity = '1';
-    panel.style.visibility = 'visible';
-    panel.style.transform = 'translateY(0)';
     if (window.innerWidth <= CONFIG.mobileBreakpoint) {
-      panel.style.position = 'fixed';
-      panel.style.inset = '0';
-      panel.style.width = '100%';
-      panel.style.height = '100dvh';
-      panel.style.maxHeight = 'none';
-      panel.style.borderRadius = '0';
+      panel.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:auto;max-height:none;border-radius:0;';
       document.body.style.overflow = 'hidden';
+      document.getElementById('gn-launcher').style.display = 'none';
+      if (window.visualViewport) onViewportResize();
     }
     hideCards();
-    document.getElementById('gn-widget-bubble').classList.remove('gn-has-notification');
+    var bubbleEl = document.getElementById('gn-widget-bubble');
+    if (bubbleEl) { bubbleEl.classList.remove('gn-has-notification'); bubbleEl.setAttribute('aria-expanded', 'true'); }
     document.getElementById('gn-widget-input').focus();
     const msgs = document.getElementById('gn-widget-messages');
     if (msgs) msgs.scrollTop = msgs.scrollHeight;
@@ -443,10 +468,11 @@
     panelOpen = false;
     const panel = document.getElementById('gn-widget-panel');
     panel.classList.remove('gn-open');
-    panel.style.opacity = '0';
-    panel.style.visibility = 'hidden';
-    panel.style.transform = 'translateY(8px)';
+    panel.style.cssText = '';
     document.body.style.overflow = '';
+    document.getElementById('gn-launcher').style.display = 'flex';
+    var bubbleEl = document.getElementById('gn-widget-bubble');
+    if (bubbleEl) bubbleEl.setAttribute('aria-expanded', 'false');
     showCards();
   }
 
@@ -503,7 +529,13 @@
     let escaped = (function(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; })(text);
     escaped = escaped.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     escaped = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:' + CONFIG.accentColor + ';text-decoration:underline;">$1</a>');
-    escaped = escaped.replace(/(?<!=["'])(https?:\/\/[^\s<>"')\]]+)/g, '<a href="$1" target="_blank" rel="noopener" style="color:' + CONFIG.accentColor + ';text-decoration:underline;">$1</a>');
+    escaped = escaped.replace(/(?<!=["'])(https?:\/\/[^\s<>"')\]]+)/g, function(m, url) {
+      var label; try { label = new URL(url).hostname.replace(/^www\./, ''); } catch(e) { label = url; }
+      return '<a href="' + url + '" target="_blank" rel="noopener" style="color:' + CONFIG.accentColor + ';text-decoration:underline;">' + label + '</a>';
+    });
+    escaped = escaped.replace(/([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/g, '<a href="mailto:$1" style="color:' + CONFIG.accentColor + ';text-decoration:underline;">$1</a>');
+    escaped = escaped.replace(/\b(\+386[\s]?\d{2}[\s]?\d{3}[\s]?\d{3})\b/g, function(m) { return '<a href="tel:' + m.replace(/\s/g, '') + '" style="color:' + CONFIG.accentColor + ';text-decoration:underline;">' + m + '</a>'; });
+    escaped = escaped.replace(/\b(0\d{2})[\s]?(\d{3})[\s]?(\d{3})\b/g, function(m, a, b, c) { return '<a href="tel:+386' + a.substring(1) + b + c + '" style="color:' + CONFIG.accentColor + ';text-decoration:underline;">' + m + '</a>'; });
     escaped = escaped.replace(/((?:^|\n)- [^\n]+)+/g, function(block) {
       const items = block.trim().split(/\n/).map(function(line) { return '<li>' + line.replace(/^- /, '') + '</li>'; }).join('');
       return '<ul style="margin:6px 0 6px 16px;padding:0;">' + items + '</ul>';
